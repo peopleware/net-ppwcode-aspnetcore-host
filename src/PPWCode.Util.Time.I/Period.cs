@@ -172,7 +172,7 @@ public abstract class Period<T>
     /// <inheritdoc />
     public override string ToString()
     {
-        string? from = From.ToString();
+        string? from = From == null ? "-∞" : From.Value.ToString();
         string? to = To == null ? "+∞" : To.Value.ToString();
         return $"[{from}, {to}[";
     }
