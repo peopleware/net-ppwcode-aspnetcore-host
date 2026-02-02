@@ -5,11 +5,17 @@
       "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.2.0",
-        "contentHash": "lSc82pJXbsXuqPt/5YsHdS6gdHtcnhryWKvFC+2YIs+6ILH5lkuavrBLVWGDYVALmaDTba96T3YlylZaYhnzIw==",
+        "resolved": "1.4.1",
+        "contentHash": "4GlI02Sxovny8zLMbMo3VBVqZDkoVWLSWDSz0hNlpmuy34wRbxFcLWzjyMpx6ps2PXZ35jpPBOMh3+F5VQWyiA==",
         "dependencies": {
-          "PPWCode.Vernacular.Exceptions.IV": "1.2.0"
+          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
         }
+      },
+      "PPWCode.Vernacular.Exceptions.V": {
+        "type": "Direct",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "Z7eSoehsODkrkhAYkcOEEMUAojxwjxNVaDyBtN5CUYp03uj+fmnBZmTsMjz04jQG+C7ZYvvMyGQteZNCOfYk0w=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -19,14 +25,8 @@
       },
       "PPWCode.Vernacular.Exceptions.IV": {
         "type": "Transitive",
-        "resolved": "1.2.0",
-        "contentHash": "hWD5pr+4qtnAJHjTqxBPX2wT6WO8e9wMqudXYPlDGveDk9Mk2+DyZaz+DDs810hV3Fhfz7pXhS5H7WTcMI6zrg=="
-      },
-      "ppwcode.vernacular.exceptions.v": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
+        "resolved": "2.2.1",
+        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
       }
     }
   }

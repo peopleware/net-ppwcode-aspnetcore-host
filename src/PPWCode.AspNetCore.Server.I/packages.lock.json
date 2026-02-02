@@ -5,20 +5,26 @@
       "Asp.Versioning.Mvc": {
         "type": "Direct",
         "requested": "[8.*, )",
-        "resolved": "8.1.0",
-        "contentHash": "BMAJM2sGsTUw5FQ9upKQt6GFoldWksePgGpYjl56WSRvIuE3UxKZh0gAL+wDTIfLshUZm97VCVxlOGyrcjWz9Q==",
+        "resolved": "8.1.1",
+        "contentHash": "mkJv6eAdlbHbqTdrUcfEYFoZuGL6HoR7O+Lfsvivixp7N5BNhfCFPPOwsBzdIiH1qzdJXyJf+C+DZ08j27PMPg==",
         "dependencies": {
-          "Asp.Versioning.Http": "8.1.0"
+          "Asp.Versioning.Http": "8.1.1"
         }
       },
       "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.2.0",
-        "contentHash": "lSc82pJXbsXuqPt/5YsHdS6gdHtcnhryWKvFC+2YIs+6ILH5lkuavrBLVWGDYVALmaDTba96T3YlylZaYhnzIw==",
+        "resolved": "1.4.1",
+        "contentHash": "4GlI02Sxovny8zLMbMo3VBVqZDkoVWLSWDSz0hNlpmuy34wRbxFcLWzjyMpx6ps2PXZ35jpPBOMh3+F5VQWyiA==",
         "dependencies": {
-          "PPWCode.Vernacular.Exceptions.IV": "1.2.0"
+          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
         }
+      },
+      "PPWCode.Vernacular.Exceptions.V": {
+        "type": "Direct",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "Z7eSoehsODkrkhAYkcOEEMUAojxwjxNVaDyBtN5CUYp03uj+fmnBZmTsMjz04jQG+C7ZYvvMyGQteZNCOfYk0w=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -36,8 +42,8 @@
       },
       "Asp.Versioning.Http": {
         "type": "Transitive",
-        "resolved": "8.1.0",
-        "contentHash": "Xu4xF62Cu9JqYi/CTa2TiK5kyHoa4EluPynj/bPFWDmlTIPzuJQbBI5RgFYVRFHjFVvWMoA77acRaFu7i7Wzqg==",
+        "resolved": "8.1.1",
+        "contentHash": "1D/Mzq1MSUSQe1eCY6GeEsu+tIlpzoWZxZkhlcw/uvtVoTrwO+BMl0fSj/XX8oZN1DutWTZqHDHgyDRq+IeSdQ==",
         "dependencies": {
           "Asp.Versioning.Abstractions": "8.1.0"
         }
@@ -49,20 +55,14 @@
       },
       "PPWCode.Vernacular.Exceptions.IV": {
         "type": "Transitive",
-        "resolved": "1.2.0",
-        "contentHash": "hWD5pr+4qtnAJHjTqxBPX2wT6WO8e9wMqudXYPlDGveDk9Mk2+DyZaz+DDs810hV3Fhfz7pXhS5H7WTcMI6zrg=="
-      },
-      "ppwcode.vernacular.exceptions.v": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
+        "resolved": "2.2.1",
+        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
       },
       "ppwcode.vernacular.persistence.v": {
         "type": "Project",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "[1.*, )",
-          "PPWCode.Vernacular.Exceptions.V": "[0.0.9, )",
+          "PPWCode.Vernacular.Exceptions.V": "[1.*, )",
           "PPWCode.Vernacular.Semantics.V": "[0.0.9, )"
         }
       },
@@ -70,7 +70,7 @@
         "type": "Project",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "[1.*, )",
-          "PPWCode.Vernacular.Exceptions.V": "[0.0.9, )"
+          "PPWCode.Vernacular.Exceptions.V": "[1.*, )"
         }
       }
     }

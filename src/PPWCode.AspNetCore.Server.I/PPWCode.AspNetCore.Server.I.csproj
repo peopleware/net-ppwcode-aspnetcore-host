@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PPWCode.Vernacular.Exceptions.V\PPWCode.Vernacular.Exceptions.V.csproj" />
+        <PackageReference Include="PPWCode.Vernacular.Exceptions.V" Version="1.*" />
       <ProjectReference Include="..\PPWCode.Vernacular.Persistence.V\PPWCode.Vernacular.Persistence.V.csproj" />
     </ItemGroup>
 
