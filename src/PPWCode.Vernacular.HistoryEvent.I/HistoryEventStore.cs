@@ -15,7 +15,7 @@ using PPWCode.Vernacular.Persistence.V;
 using PPWCode.Vernacular.RequestContext.I;
 using PPWCode.Vernacular.Semantics.V;
 
-using SemanticException = PPWCode.Vernacular.Exceptions.IV.SemanticException;
+using SemanticException = PPWCode.Vernacular.Exceptions.V.SemanticException;
 
 namespace PPWCode.Vernacular.HistoryEvent.I;
 

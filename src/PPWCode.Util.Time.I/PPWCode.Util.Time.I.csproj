@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="PPWCode.Vernacular.Exceptions.V" Version="1.*" />
-      <ProjectReference Include="..\PPWCode.Vernacular.Semantics.V\PPWCode.Vernacular.Semantics.V.csproj" />
+        <PackageReference Include="PPWCode.Vernacular.Semantics.V" Version="1.*" />
     </ItemGroup>
 
 </Project>

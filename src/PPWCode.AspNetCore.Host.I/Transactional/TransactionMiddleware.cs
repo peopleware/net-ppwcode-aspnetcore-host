@@ -19,7 +19,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
 using PPWCode.AspNetCore.Server.I.Transactional;
-using PPWCode.Vernacular.Exceptions.IV;
+using PPWCode.Vernacular.Exceptions.V;
 
 namespace PPWCode.AspNetCore.Host.I.Transactional;
 

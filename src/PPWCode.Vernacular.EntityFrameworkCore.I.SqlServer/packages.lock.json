@@ -25,11 +25,8 @@
       "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.4.1",
-        "contentHash": "4GlI02Sxovny8zLMbMo3VBVqZDkoVWLSWDSz0hNlpmuy34wRbxFcLWzjyMpx6ps2PXZ35jpPBOMh3+F5VQWyiA==",
-        "dependencies": {
-          "PPWCode.Vernacular.Exceptions.IV": "2.2.1"
-        }
+        "resolved": "1.5.0",
+        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -243,15 +240,19 @@
         "resolved": "1.0.0",
         "contentHash": "N4KeF3cpcm1PUHym1RmakkzfkEv3GRMyofVv40uXsQhCQeglr2OHNcUk2WOG51AKpGO8ynGpo9M/kFXSzghwug=="
       },
-      "PPWCode.Vernacular.Exceptions.IV": {
-        "type": "Transitive",
-        "resolved": "2.2.1",
-        "contentHash": "EnSpiADCKJenktPGhgsDAnsSzbf+HTDq52Wkr2F+58/sanx2rb4//Q68SnYEaOKl/AACQBp+FOKuGih0lYYW0A=="
-      },
       "PPWCode.Vernacular.Exceptions.V": {
         "type": "Transitive",
+        "resolved": "1.1.0",
+        "contentHash": "G/XH86vmbBIIuVRcoNLFRD0AHtEJ7aLw8w+Ia3BUHgZw2TGALDQ/eNOfrOrTFy5+4HPO2PLwRfrr69/Cp/zTRw=="
+      },
+      "PPWCode.Vernacular.Semantics.V": {
+        "type": "Transitive",
         "resolved": "1.0.0",
-        "contentHash": "Z7eSoehsODkrkhAYkcOEEMUAojxwjxNVaDyBtN5CUYp03uj+fmnBZmTsMjz04jQG+C7ZYvvMyGQteZNCOfYk0w=="
+        "contentHash": "B4jer3TyGME3xLFLY7BUN71OmvJiquPN4JH0ifQ7Gvh9CIrIL2orX/SHBtWNF7foUN1O22VpytcpmzWoT11Heg==",
+        "dependencies": {
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0"
+        }
       },
       "System.ClientModel": {
         "type": "Transitive",
@@ -321,7 +322,7 @@
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "[1.*, )",
           "PPWCode.Vernacular.Exceptions.V": "[1.*, )",
-          "PPWCode.Vernacular.Semantics.V": "[0.0.9, )"
+          "PPWCode.Vernacular.Semantics.V": "[1.*, )"
         }
       },
       "ppwcode.vernacular.entityframeworkcore.i": {
@@ -339,7 +340,7 @@
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "[1.*, )",
           "PPWCode.Vernacular.Exceptions.V": "[1.*, )",
-          "PPWCode.Vernacular.Semantics.V": "[0.0.9, )"
+          "PPWCode.Vernacular.Semantics.V": "[1.*, )"
         }
       },
       "ppwcode.vernacular.requestcontext.i": {
@@ -348,13 +349,6 @@
           "PPWCode.Util.Authorisation.I": "[0.0.9, )",
           "PPWCode.Util.Time.I": "[0.0.9, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
-      },
-      "ppwcode.vernacular.semantics.v": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )",
-          "PPWCode.Vernacular.Exceptions.V": "[1.*, )"
         }
       }
     }

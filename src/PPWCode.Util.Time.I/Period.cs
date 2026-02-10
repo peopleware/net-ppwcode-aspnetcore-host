@@ -17,9 +17,8 @@ using PPWCode.Vernacular.Semantics.V;
 namespace PPWCode.Util.Time.I;
 
 public abstract class Period<T>
-    : CivilizedObject,
+    : DataContainer,
       IPeriod<T>,
-      IIsEmpty,
       IEquatable<Period<T>>
     where T : struct, IComparable<T>, IEquatable<T>
 {
@@ -57,9 +56,9 @@ public abstract class Period<T>
             && Nullable.Equals(To, other.To);
     }
 
-    /// <inheritdoc cref="IIsEmpty.IsEmpty" />
-    public bool IsEmpty
-        => From is null && To is null;
+    /// <inheritdoc cref="IDataContainer.IsDataPresent" />
+    public override bool IsDataPresent
+        => From is not null || To is not null;
 
     public virtual T CoalesceFrom
         => From ?? MinValue;
@@ -134,14 +133,9 @@ public abstract class Period<T>
         => [CoalesceFrom, CoalesceTo];
 
     /// <inheritdoc />
-    public override CompoundSemanticException WildExceptions()
+    protected override CompoundSemanticException WildExceptionsForPresentData()
     {
-        if (IsEmpty)
-        {
-            return new CompoundSemanticException();
-        }
-
-        CompoundSemanticException cse = base.WildExceptions();
+        CompoundSemanticException cse = base.WildExceptionsForPresentData();
 
         if (CoalesceFrom.CompareTo(CoalesceTo) >= 0)
         {
