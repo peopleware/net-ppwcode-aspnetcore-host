@@ -31,10 +31,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Time.I", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Time.I.Tests", "src\PPWCode.Util.Time.I.Tests\PPWCode.Util.Time.I.Tests.csproj", "{A4D88181-832D-4ED1-B538-07F0C42BADDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Collection.I", "src\PPWCode.Util.Collection.I\PPWCode.Util.Collection.I.csproj", "{79468AFD-17C3-4012-85C5-1494BABF0175}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Collection.I.Tests", "src\PPWCode.Util.Collection.I.Tests\PPWCode.Util.Collection.I.Tests.csproj", "{673D10AE-5FF2-4E1C-8861-8D9EE46D9752}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.EntityFrameworkCore.I.Tests", "src\PPWCode.Vernacular.EntityFrameworkCore.I.Tests\PPWCode.Vernacular.EntityFrameworkCore.I.Tests.csproj", "{F9D0BA0D-98F5-4B90-9D1C-D22A57C6DF9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.HistoryEvent.I", "src\PPWCode.Vernacular.HistoryEvent.I\PPWCode.Vernacular.HistoryEvent.I.csproj", "{711EF1A2-1E69-466E-9093-A896B4821428}"
@@ -94,14 +90,6 @@ Global
 		{A4D88181-832D-4ED1-B538-07F0C42BADDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4D88181-832D-4ED1-B538-07F0C42BADDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4D88181-832D-4ED1-B538-07F0C42BADDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{79468AFD-17C3-4012-85C5-1494BABF0175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{79468AFD-17C3-4012-85C5-1494BABF0175}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{79468AFD-17C3-4012-85C5-1494BABF0175}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{79468AFD-17C3-4012-85C5-1494BABF0175}.Release|Any CPU.Build.0 = Release|Any CPU
-		{673D10AE-5FF2-4E1C-8861-8D9EE46D9752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{673D10AE-5FF2-4E1C-8861-8D9EE46D9752}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{673D10AE-5FF2-4E1C-8861-8D9EE46D9752}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{673D10AE-5FF2-4E1C-8861-8D9EE46D9752}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F9D0BA0D-98F5-4B90-9D1C-D22A57C6DF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F9D0BA0D-98F5-4B90-9D1C-D22A57C6DF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9D0BA0D-98F5-4B90-9D1C-D22A57C6DF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU

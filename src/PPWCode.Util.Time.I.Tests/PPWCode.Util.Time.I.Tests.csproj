@@ -9,7 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PPWCode.Util.Collection.I\PPWCode.Util.Collection.I.csproj" />
+        <PackageReference Include="PPWCode.Util.Collection.I" Version="1.*" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\PPWCode.Util.Time.I\PPWCode.Util.Time.I.csproj" />
     </ItemGroup>
 
