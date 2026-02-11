@@ -17,10 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style-cop", "style-cop", "{
 		src\StyleCop-Tests.ruleset = src\StyleCop-Tests.ruleset
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.Persistence.V", "src\PPWCode.Vernacular.Persistence.V\PPWCode.Vernacular.Persistence.V.csproj", "{BAB0A4FD-EB48-4C17-AB39-7A265C19422A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Vernacular.Persistence.V.Tests", "src\PPWCode.Vernacular.Persistence.V.Tests\PPWCode.Vernacular.Persistence.V.Tests.csproj", "{B62BF73E-89EC-469C-953B-7903D8F93C4B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Validation.IV", "src\PPWCode.Util.Validation.IV\PPWCode.Util.Validation.IV.csproj", "{01EAA1C5-DFB4-44BD-9F40-F799CF788943}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPWCode.Util.Validation.IV.Tests", "src\PPWCode.Util.Validation.IV.Tests\PPWCode.Util.Validation.IV.Tests.csproj", "{3F3A8C4B-6E84-44B9-81D4-5DFE027CFE78}"
@@ -58,14 +54,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BAB0A4FD-EB48-4C17-AB39-7A265C19422A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAB0A4FD-EB48-4C17-AB39-7A265C19422A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BAB0A4FD-EB48-4C17-AB39-7A265C19422A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BAB0A4FD-EB48-4C17-AB39-7A265C19422A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B62BF73E-89EC-469C-953B-7903D8F93C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B62BF73E-89EC-469C-953B-7903D8F93C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B62BF73E-89EC-469C-953B-7903D8F93C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B62BF73E-89EC-469C-953B-7903D8F93C4B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01EAA1C5-DFB4-44BD-9F40-F799CF788943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01EAA1C5-DFB4-44BD-9F40-F799CF788943}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01EAA1C5-DFB4-44BD-9F40-F799CF788943}.Release|Any CPU.ActiveCfg = Release|Any CPU

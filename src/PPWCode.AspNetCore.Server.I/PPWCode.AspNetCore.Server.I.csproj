@@ -13,12 +13,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Asp.Versioning.Mvc" Version="8.*" />
+        <PackageReference Include="Asp.Versioning.Mvc"  Version="8.*" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="PPWCode.Vernacular.Exceptions.V" Version="1.*" />
-      <ProjectReference Include="..\PPWCode.Vernacular.Persistence.V\PPWCode.Vernacular.Persistence.V.csproj" />
+        <PackageReference Include="PPWCode.Vernacular.Persistence.V" Version="1.*" />
     </ItemGroup>
 
 </Project>
