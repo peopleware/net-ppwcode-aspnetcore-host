@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="PPWCode.Util.Authorization.I" Version="1.*" />
-        <PackageReference Include="PPWCode.Util.Time.I" Version="1.*-*" />
+        <PackageReference Include="PPWCode.Util.Time.I" Version="1.*" />
     </ItemGroup>
 
 </Project>

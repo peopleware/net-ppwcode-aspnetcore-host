@@ -10,9 +10,9 @@
       },
       "PPWCode.Util.Time.I": {
         "type": "Direct",
-        "requested": "[1.*-*, )",
-        "resolved": "1.0.0-alpha.1",
-        "contentHash": "MjpFFF5E3DVkzFMxWaYnIii6FXuFScGeXW3qj62mRlbzKCykJvIQBcoP6gedyXX4IZnUlqgmaAT674mM+fYiIg==",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "KbF/TsKMSXUGHwCQigDcAAC+lMTp2bvcWufpYwYu2knF5IZMPeFN+j6q2C81H1E9WVMiV2TIxzwPZp0aUP/8ZQ==",
         "dependencies": {
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
           "PPWCode.Vernacular.Exceptions.V": "1.1.0",
