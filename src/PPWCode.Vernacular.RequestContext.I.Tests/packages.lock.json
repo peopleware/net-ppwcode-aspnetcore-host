@@ -84,6 +84,11 @@
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
+      "PPWCode.Util.Authorization.I": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "JDc3Ul3/gmpLKfBgW6emQSPyeikgP3S+A0GzbOendxWOT7YNsdyzs5wAthzgkF88o2BG+R7EXBZcppg4qR9v+w=="
+      },
       "PPWCode.Vernacular.Exceptions.V": {
         "type": "Transitive",
         "resolved": "1.1.0",
@@ -111,12 +116,6 @@
           "System.Collections.Immutable": "8.0.0"
         }
       },
-      "ppwcode.util.authorisation.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
-      },
       "ppwcode.util.time.i": {
         "type": "Project",
         "dependencies": {
@@ -128,7 +127,7 @@
       "ppwcode.vernacular.requestcontext.i": {
         "type": "Project",
         "dependencies": {
-          "PPWCode.Util.Authorisation.I": "[0.0.9, )",
+          "PPWCode.Util.Authorization.I": "[1.*, )",
           "PPWCode.Util.Time.I": "[0.0.9, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )"
         }

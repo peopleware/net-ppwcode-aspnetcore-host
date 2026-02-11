@@ -13,7 +13,7 @@ using System.Security.Principal;
 
 using Microsoft.AspNetCore.Http;
 
-using PPWCode.Util.Authorisation.I;
+using PPWCode.Util.Authorization.I;
 
 namespace PPWCode.AspNetCore.Host.I.Providers;
 

@@ -2,6 +2,12 @@
   "version": 1,
   "dependencies": {
     "net8.0": {
+      "PPWCode.Util.Authorization.I": {
+        "type": "Direct",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "JDc3Ul3/gmpLKfBgW6emQSPyeikgP3S+A0GzbOendxWOT7YNsdyzs5wAthzgkF88o2BG+R7EXBZcppg4qR9v+w=="
+      },
       "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
         "requested": "[1.*, )",
@@ -28,12 +34,6 @@
           "PPWCode.Vernacular.Exceptions.V": "1.1.0"
         }
       },
-      "ppwcode.util.authorisation.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
-      },
       "ppwcode.util.time.i": {
         "type": "Project",
         "dependencies": {
@@ -53,7 +53,7 @@
       "ppwcode.vernacular.requestcontext.i": {
         "type": "Project",
         "dependencies": {
-          "PPWCode.Util.Authorisation.I": "[0.0.9, )",
+          "PPWCode.Util.Authorization.I": "[1.*, )",
           "PPWCode.Util.Time.I": "[0.0.9, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )"
         }

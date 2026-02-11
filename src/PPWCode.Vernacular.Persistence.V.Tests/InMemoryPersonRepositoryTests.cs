@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 using NUnit.Framework;
 
-using PPWCode.Util.Authorisation.I;
+using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
 
 namespace PPWCode.Vernacular.Persistence.V.Tests;

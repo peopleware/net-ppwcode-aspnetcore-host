@@ -240,6 +240,11 @@
         "resolved": "1.0.0",
         "contentHash": "N4KeF3cpcm1PUHym1RmakkzfkEv3GRMyofVv40uXsQhCQeglr2OHNcUk2WOG51AKpGO8ynGpo9M/kFXSzghwug=="
       },
+      "PPWCode.Util.Authorization.I": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "JDc3Ul3/gmpLKfBgW6emQSPyeikgP3S+A0GzbOendxWOT7YNsdyzs5wAthzgkF88o2BG+R7EXBZcppg4qR9v+w=="
+      },
       "PPWCode.Vernacular.Exceptions.V": {
         "type": "Transitive",
         "resolved": "1.1.0",
@@ -311,12 +316,6 @@
         "resolved": "4.5.0",
         "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
       },
-      "ppwcode.util.authorisation.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
-      },
       "ppwcode.util.time.i": {
         "type": "Project",
         "dependencies": {
@@ -346,7 +345,7 @@
       "ppwcode.vernacular.requestcontext.i": {
         "type": "Project",
         "dependencies": {
-          "PPWCode.Util.Authorisation.I": "[0.0.9, )",
+          "PPWCode.Util.Authorization.I": "[1.*, )",
           "PPWCode.Util.Time.I": "[0.0.9, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )"
         }

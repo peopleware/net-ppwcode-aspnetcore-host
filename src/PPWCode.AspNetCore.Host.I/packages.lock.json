@@ -186,6 +186,11 @@
         "resolved": "1.6.22",
         "contentHash": "aBvunmrdu/x+4CaA/UP1Jx4xWGwk4kymhoIRnn2Vp+zi5/KOPQJ9EkSXHRUr01WcGKtYl3Au7XfkPJbU1G2sjQ=="
       },
+      "PPWCode.Util.Authorization.I": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "JDc3Ul3/gmpLKfBgW6emQSPyeikgP3S+A0GzbOendxWOT7YNsdyzs5wAthzgkF88o2BG+R7EXBZcppg4qR9v+w=="
+      },
       "PPWCode.Vernacular.Exceptions.V": {
         "type": "Transitive",
         "resolved": "1.1.0",
@@ -235,12 +240,6 @@
           "PPWCode.Vernacular.Persistence.V": "[0.0.9, )"
         }
       },
-      "ppwcode.util.authorisation.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
-      },
       "ppwcode.util.time.i": {
         "type": "Project",
         "dependencies": {
@@ -260,7 +259,7 @@
       "ppwcode.vernacular.requestcontext.i": {
         "type": "Project",
         "dependencies": {
-          "PPWCode.Util.Authorisation.I": "[0.0.9, )",
+          "PPWCode.Util.Authorization.I": "[1.*, )",
           "PPWCode.Util.Time.I": "[0.0.9, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )"
         }

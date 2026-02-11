@@ -9,7 +9,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using PPWCode.Util.Authorisation.I;
+using PPWCode.Util.Authorization.I;
 using PPWCode.Util.Time.I;
 
 namespace PPWCode.Vernacular.RequestContext.I;
