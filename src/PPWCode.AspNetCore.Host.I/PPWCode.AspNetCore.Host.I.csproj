@@ -22,10 +22,8 @@
 
         <PackageReference Include="PPWCode.Vernacular.Persistence.V" Version="1.*" />
         <PackageReference Include="PPWCode.Vernacular.RequestContext.I" Version="1.*" />
-    </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\PPWCode.AspNetCore.Server.I\PPWCode.AspNetCore.Server.I.csproj" />
+        <PackageReference Include="PPWCode.AspNetCore.Server.I" Version="1.*" />
     </ItemGroup>
 
 </Project>

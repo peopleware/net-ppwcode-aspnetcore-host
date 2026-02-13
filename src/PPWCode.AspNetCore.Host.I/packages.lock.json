@@ -35,6 +35,18 @@
           "Microsoft.Extensions.Logging": "9.0.13"
         }
       },
+      "PPWCode.AspNetCore.Server.I": {
+        "type": "Direct",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "30Ipxa0xqDuPRsuqX2vL7EsziMMUCVYyICTMpTm1Pl9Nwqj9yrEjzw2BNDLoMTFUHvftZl/NnM+ghDKqNlmjZw==",
+        "dependencies": {
+          "Asp.Versioning.Mvc": "8.1.1",
+          "PPWCode.Vernacular.Contracts.I": "1.5.0",
+          "PPWCode.Vernacular.Exceptions.V": "1.1.0",
+          "PPWCode.Vernacular.Persistence.V": "1.0.0"
+        }
+      },
       "PPWCode.Vernacular.Contracts.I": {
         "type": "Direct",
         "requested": "[1.*, )",
@@ -262,15 +274,6 @@
         "type": "Transitive",
         "resolved": "9.0.13",
         "contentHash": "4UOSOj/lq46yHG1fd5c/rZM8BVGr8Arz8WdRxN9kgiUUmw9pxnBBaitBmvyJb0bEvuXdN3C20GfiSNQmQ3eeLA=="
-      },
-      "ppwcode.aspnetcore.server.i": {
-        "type": "Project",
-        "dependencies": {
-          "Asp.Versioning.Mvc": "[8.*, )",
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )",
-          "PPWCode.Vernacular.Exceptions.V": "[1.*, )",
-          "PPWCode.Vernacular.Persistence.V": "[1.*, )"
-        }
       }
     }
   }
