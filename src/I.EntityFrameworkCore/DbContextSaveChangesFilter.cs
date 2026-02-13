@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging;
 using PPWCode.AspNetCore.Server.I.Transactional;
 using PPWCode.Vernacular.Exceptions.V;
 
-namespace PPWCode.AspNetCore.Host.I.Transactional;
+namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
 
 /// <summary>
 ///     The <see cref="DbContextSaveChangesFilter" /> is an <see cref="IAsyncActionFilter" /> that executes a

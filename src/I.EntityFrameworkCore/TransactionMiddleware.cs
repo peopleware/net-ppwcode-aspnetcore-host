@@ -1,4 +1,4 @@
-﻿// Copyright 2025 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -18,10 +18,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 
+using PPWCode.AspNetCore.Host.I.Transactional;
 using PPWCode.AspNetCore.Server.I.Transactional;
 using PPWCode.Vernacular.Exceptions.V;
 
-namespace PPWCode.AspNetCore.Host.I.Transactional;
+namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
 
 /// <summary>
 ///     The <see cref="TransactionMiddleware" /> handles transactions.
@@ -42,7 +43,6 @@ namespace PPWCode.AspNetCore.Host.I.Transactional;
 /// </remarks>
 public class TransactionMiddleware : IMiddleware
 {
-    public const string RequestSimulation = "X-REQUEST-SIMULATION";
     private readonly DbContext _dbContext;
     private readonly ILogger<TransactionMiddleware> _logger;
 
@@ -141,7 +141,7 @@ public class TransactionMiddleware : IMiddleware
                 cancellationToken.IsCancellationRequested
                 || !IsSuccessStatusCode(httpContext)
                 || (currentTransaction != transaction)
-                || httpContext.Request.Headers.ContainsKey(RequestSimulation);
+                || httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation);
             if (shouldRollback)
             {
                 if (_logger.IsEnabled(LogLevel.Information))
@@ -154,9 +154,9 @@ public class TransactionMiddleware : IMiddleware
                     {
                         _logger.LogInformation("Rollback due to Http status code {HttpStatusCode}", httpContext.Response.StatusCode);
                     }
-                    else if (httpContext.Request.Headers.ContainsKey(RequestSimulation))
+                    else if (httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation))
                     {
-                        _logger.LogInformation("Rollback due to Header {HttpHeader}", RequestSimulation);
+                        _logger.LogInformation("Rollback due to Header {HttpHeader}", Constants.RequestSimulation);
                     }
                     else if (currentTransaction != transaction)
                     {

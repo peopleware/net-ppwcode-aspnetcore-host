@@ -21,8 +21,8 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
 {
     /// <inheritdoc />
     /// <summary>
-    ///     Operation filter to add the custom header: <see cref="TransactionMiddleware.RequestSimulation" />.
-    ///     If this header is added, the request executed completely, but the persistent store will not be updated.
+    ///     Operation filter to add the custom header: <see cref="Constants.RequestSimulation" />.
+    ///     If this header is added, the request executes completely, but the persistent store will not be updated.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class AddRequestSimulationHeader : PpwOperationFilter
@@ -36,7 +36,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                 operation.Parameters.Add(
                     new OpenApiParameter
                     {
-                        Name = TransactionMiddleware.RequestSimulation,
+                        Name = Constants.RequestSimulation,
                         Description = "Simulate Request?",
                         In = ParameterLocation.Header,
                         Schema =

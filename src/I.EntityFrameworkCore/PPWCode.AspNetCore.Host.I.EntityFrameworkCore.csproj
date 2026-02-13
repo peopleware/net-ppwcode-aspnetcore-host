@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\common.props" />
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+
+        <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
+        <PackageReference Include="PPWCode.AspNetCore.Server.I" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../I/PPWCode.AspNetCore.Host.I.csproj" />
+    </ItemGroup>
+
+</Project>
