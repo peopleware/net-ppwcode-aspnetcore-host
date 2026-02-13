@@ -4,6 +4,13 @@ The library `PPWCode.AspNetCore.Host.I` is part of the .NET PPWCode project and 
 
 This library is supported on .NET SDK versions that are currently supported by Microsoft as part of their official support lifecycle.
 
+Note that this project contains the following libraries and NuGet packages:
+
+- `PPWCode.AspNetCore.Host.I`, base functionality
+- `PPWCode.AspNetCore.Host.I.EntityFrameworkCore`, Entity Framework Core specific functionality
+
+These libraries are always released as a set and follow the same versioning.  Do not mix different versions of these libraries within the same project.
+
 
 == Development
 

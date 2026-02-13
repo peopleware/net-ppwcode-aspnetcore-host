@@ -1,8 +1,20 @@
 = Getting started
 
+// helper attributes for package links
+:nuget-main: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I/
+:nuget-efc: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I.EntityFrameworkCore/
+:main: PPWCode.AspNetCore.Host.I
+:efc: PPWCode.AspNetCore.Host.I.EntityFrameworkCore
+
 == Add NuGet package
 
-This package is available on NuGet: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I[PPWCode.AspNetCore.Host.I].
+All libraries that are part of the `PPWCode.AspNetCore.Host.I` are published on NuGet.
+
+The following packages are available:
+
+- {nuget-main}[{main}], base library
+- {nuget-efc}[{efc}], support for Entity Framework Core
+
 
 You can use your IDE to add it as a dependency to your project, or manually add it in the `.csproj` file.  This would look similar to the following:
 
@@ -10,5 +22,3 @@ You can use your IDE to add it as a dependency to your project, or manually add 
 ----
 include::example$project.csproj[]
 ----
-
-After the package is added, you can use the helper classes from `PPWCode.AspNetCore.Host.I` in your code.

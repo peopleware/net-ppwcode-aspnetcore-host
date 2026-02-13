@@ -4,6 +4,7 @@
     <ItemGroup>
         <!-- nuget package dependencies -->
         <PackageReference Include="PPWCode.AspNetCore.Host.I" Version="1.0.0" />
+        <PackageReference Include="PPWCode.AspNetCore.Host.I.EntityFrameworkCore" Version="1.0.0" />
     </ItemGroup>
 
     <!-- ... -->

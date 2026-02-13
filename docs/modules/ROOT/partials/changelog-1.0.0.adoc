@@ -12,3 +12,8 @@ This file is translated into markdown and used for the release notes in the GitH
 * Supported targets: `.NET 8.0`, `.NET 9.0`, `.NET 10.0`
 * Code built using nullable reference types
 * Use of Microsoft attributes for nullable static analysis
+
+=== Note: breaking change after prerelease
+* New package `PPWCode.AspNetCore.Host.I.EntityFrameworkCore`
+** `DbContextSaveChangesFilter` and `TransactionMiddleware` moved here
+** must be explicitly added when Entity Framework Core support is needed
