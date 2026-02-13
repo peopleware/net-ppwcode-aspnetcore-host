@@ -220,6 +220,16 @@
           "PPWCode.Vernacular.Semantics.V": "1.0.0"
         }
       },
+      "PPWCode.Vernacular.RequestContext.I": {
+        "type": "Transitive",
+        "resolved": "1.0.0",
+        "contentHash": "KkhEf+OU4oYgRxORB1swnnDPG9kYoEEzkfTazgQod2vGeE/sH208c40bQ+Nwj219/RD51jpaOnYR9HZ4LmjuNA==",
+        "dependencies": {
+          "PPWCode.Util.Authorization.I": "1.0.0",
+          "PPWCode.Util.Time.I": "1.0.0",
+          "PPWCode.Vernacular.Contracts.I": "1.5.0"
+        }
+      },
       "PPWCode.Vernacular.Semantics.V": {
         "type": "Transitive",
         "resolved": "1.0.0",
@@ -254,15 +264,7 @@
           "Microsoft.EntityFrameworkCore.Relational": "[9.0.*, )",
           "PPWCode.Vernacular.Contracts.I": "[1.*, )",
           "PPWCode.Vernacular.Persistence.V": "[1.*, )",
-          "PPWCode.Vernacular.RequestContext.I": "[0.0.9, )"
-        }
-      },
-      "ppwcode.vernacular.requestcontext.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Util.Authorization.I": "[1.*, )",
-          "PPWCode.Util.Time.I": "[1.*, )",
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
+          "PPWCode.Vernacular.RequestContext.I": "[1.*, )"
         }
       }
     }

@@ -15,7 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="PPWCode.Vernacular.Persistence.V" Version="1.*" />
-        <ProjectReference Include="..\PPWCode.Vernacular.RequestContext.I\PPWCode.Vernacular.RequestContext.I.csproj"/>
+        <PackageReference Include="PPWCode.Vernacular.RequestContext.I" Version="1.*" />
     </ItemGroup>
 
 </Project>

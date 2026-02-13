@@ -43,6 +43,17 @@
           "PPWCode.Vernacular.Semantics.V": "1.0.0"
         }
       },
+      "PPWCode.Vernacular.RequestContext.I": {
+        "type": "Direct",
+        "requested": "[1.*, )",
+        "resolved": "1.0.0",
+        "contentHash": "KkhEf+OU4oYgRxORB1swnnDPG9kYoEEzkfTazgQod2vGeE/sH208c40bQ+Nwj219/RD51jpaOnYR9HZ4LmjuNA==",
+        "dependencies": {
+          "PPWCode.Util.Authorization.I": "1.0.0",
+          "PPWCode.Util.Time.I": "1.0.0",
+          "PPWCode.Vernacular.Contracts.I": "1.5.0"
+        }
+      },
       "StyleCop.Analyzers": {
         "type": "Direct",
         "requested": "[1.1.118, )",
@@ -166,14 +177,6 @@
         "type": "Transitive",
         "resolved": "9.0.13",
         "contentHash": "4UOSOj/lq46yHG1fd5c/rZM8BVGr8Arz8WdRxN9kgiUUmw9pxnBBaitBmvyJb0bEvuXdN3C20GfiSNQmQ3eeLA=="
-      },
-      "ppwcode.vernacular.requestcontext.i": {
-        "type": "Project",
-        "dependencies": {
-          "PPWCode.Util.Authorization.I": "[1.*, )",
-          "PPWCode.Util.Time.I": "[1.*, )",
-          "PPWCode.Vernacular.Contracts.I": "[1.*, )"
-        }
       }
     }
   }
