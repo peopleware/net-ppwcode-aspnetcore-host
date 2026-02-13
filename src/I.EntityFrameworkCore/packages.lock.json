@@ -34,8 +34,8 @@
       "PPWCode.AspNetCore.Server.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.0.0",
-        "contentHash": "30Ipxa0xqDuPRsuqX2vL7EsziMMUCVYyICTMpTm1Pl9Nwqj9yrEjzw2BNDLoMTFUHvftZl/NnM+ghDKqNlmjZw==",
+        "resolved": "1.0.1",
+        "contentHash": "0KNkIFo/vHYWBlj60vtWgb0SLxdbGqGEIgJQncWsP5y0Xl49/bXEYj04kKDLdlm+BpgqvEqIf8MjtPLFttUCrw==",
         "dependencies": {
           "Asp.Versioning.Mvc": "8.1.1",
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
@@ -264,8 +264,8 @@
       "PPWCode.AspNetCore.Server.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.0.0",
-        "contentHash": "30Ipxa0xqDuPRsuqX2vL7EsziMMUCVYyICTMpTm1Pl9Nwqj9yrEjzw2BNDLoMTFUHvftZl/NnM+ghDKqNlmjZw==",
+        "resolved": "1.0.1",
+        "contentHash": "0KNkIFo/vHYWBlj60vtWgb0SLxdbGqGEIgJQncWsP5y0Xl49/bXEYj04kKDLdlm+BpgqvEqIf8MjtPLFttUCrw==",
         "dependencies": {
           "Asp.Versioning.Mvc": "8.1.1",
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
@@ -494,8 +494,8 @@
       "PPWCode.AspNetCore.Server.I": {
         "type": "Direct",
         "requested": "[1.*, )",
-        "resolved": "1.0.0",
-        "contentHash": "30Ipxa0xqDuPRsuqX2vL7EsziMMUCVYyICTMpTm1Pl9Nwqj9yrEjzw2BNDLoMTFUHvftZl/NnM+ghDKqNlmjZw==",
+        "resolved": "1.0.1",
+        "contentHash": "0KNkIFo/vHYWBlj60vtWgb0SLxdbGqGEIgJQncWsP5y0Xl49/bXEYj04kKDLdlm+BpgqvEqIf8MjtPLFttUCrw==",
         "dependencies": {
           "Asp.Versioning.Mvc": "8.1.1",
           "PPWCode.Vernacular.Contracts.I": "1.5.0",
