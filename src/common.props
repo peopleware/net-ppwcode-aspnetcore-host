@@ -1,10 +1,11 @@
 <Project>
-    <ItemGroup>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
+    <PropertyGroup>
+        <!-- nuget package -->
+        <IsPackable>true</IsPackable>
 
-        <PackageReference Include="PPWCode.Vernacular.Contracts.I" Version="1.*" />
-    </ItemGroup>
+        <!-- Analyzer -->
+        <CodeAnalysisRuleSet>..\Analyzer.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
+
+    <!-- common dependencies included using GlobalPackageReference -->
 </Project>

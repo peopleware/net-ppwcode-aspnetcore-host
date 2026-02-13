@@ -28,7 +28,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
             if (IsDelete(context))
             {
                 OpenApiResponse response =
-                    new ()
+                    new()
                     {
                         Description = $"A {GetControllerName(context)} identified by ({GetIdentifications(context.ApiDescription)}), is found and deleted."
                     };

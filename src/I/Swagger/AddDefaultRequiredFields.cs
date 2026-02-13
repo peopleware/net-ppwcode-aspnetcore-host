@@ -33,7 +33,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
         static AddDefaultRequiredFields()
         {
             DefaultRequiredField defaultRequiredField =
-                new (
+                new(
                     typeof(ApiVersion),
                     [
                         (pd => $"{pd.ParameterDescriptor.Name}", new OpenApiString($"{Startup.DefaultApiVersion.ToString(Startup.ApiVersionFormat)}"))

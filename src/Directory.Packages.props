@@ -1,0 +1,75 @@
+<Project>
+
+    <PropertyGroup>
+        <!-- Enable central package management -->
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+        <!-- Enforce versions also on transitive dependencies! -->
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+
+        <!-- Enable floating versions -->
+        <!-- This is not recommended but we do use package lock files -->
+        <!-- So always review changes to package lock files to prevent pain -->
+        <CentralPackageFloatingVersionsEnabled>true</CentralPackageFloatingVersionsEnabled>
+
+        <!-- no overrides allowed, should only exceptionally be enabled -->
+        <CentralPackageVersionOverrideEnabled>false</CentralPackageVersionOverrideEnabled>
+    </PropertyGroup>
+
+    <!-- package versions -->
+    <!-- Microsoft: framework dependent -->
+    <Choose>
+        <When Condition="'$(TargetFramework)' == 'net8.0'">
+            <ItemGroup>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.*"/>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.*"/>
+            </ItemGroup>
+        </When>
+        <When Condition="'$(TargetFramework)' == 'net9.0'">
+            <ItemGroup>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.*"/>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.*"/>
+            </ItemGroup>
+        </When>
+        <Otherwise>
+            <ItemGroup>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.*"/>
+                <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.*"/>
+            </ItemGroup>
+        </Otherwise>
+    </Choose>
+
+    <!-- package versions -->
+    <ItemGroup>
+        <!-- PPWCode -->
+        <PackageVersion Include="PPWCode.Vernacular.Contracts.I" Version="1.*" />
+        <PackageVersion Include="PPWCode.Vernacular.Persistence.V" Version="1.*" />
+        <PackageVersion Include="PPWCode.Vernacular.RequestContext.I" Version="1.*" />
+        <PackageVersion Include="PPWCode.AspNetCore.Server.I" Version="1.*" />
+
+        <!-- Swashbuckle -->
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.*"/>
+        <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="7.*" />
+
+        <!-- Asp.Versioning -->
+        <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
+
+        <!-- nunit -->
+        <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+        <PackageVersion Include="NUnit" Version="4.4.0" />
+        <PackageVersion Include="NUnit3TestAdapter" Version="6.0.1" />
+        <PackageVersion Include="JunitXml.TestLogger" Version="7.1.0" />
+        <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+
+        <!-- analyzers -->
+        <PackageVersion Include="NUnit.Analyzers" Version="4.11.2" />
+    </ItemGroup>
+
+    <!-- global package references -->
+    <ItemGroup>
+        <!-- included in each project, using PrivateAssets="All" -->
+        <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
+        <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="10.*" />
+    </ItemGroup>
+
+</Project>

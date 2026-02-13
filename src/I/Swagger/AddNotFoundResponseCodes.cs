@@ -43,7 +43,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                         .SupportedResponseTypes
                         .FirstOrDefault(srt => srt.Type != typeof(void));
                 string? responseTypeName = responseType?.Type?.Name ?? GetControllerName(context);
-                OpenApiResponse response = new () { Description = $"A(n) {responseTypeName} identified by ({identifications}), is not found." };
+                OpenApiResponse response = new() { Description = $"A(n) {responseTypeName} identified by ({identifications}), is not found." };
                 ConditionalAddResponse(operation, $"{HttpStatusCode.NotFound:D}", response);
             }
         }

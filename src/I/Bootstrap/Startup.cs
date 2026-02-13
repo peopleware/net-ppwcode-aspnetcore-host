@@ -17,7 +17,7 @@ namespace PPWCode.AspNetCore.Host.I.Bootstrap;
 
 public static class Startup
 {
-    public static readonly ApiVersion DefaultApiVersion = new (1, 0);
+    public static readonly ApiVersion DefaultApiVersion = new(1, 0);
     public static readonly string ApiVersionFormat = LinksContext.DefaultApiVersionFormat;
     public static readonly string ApiVersionGroupNameFormat = "'v'" + ApiVersionFormat;
 }
