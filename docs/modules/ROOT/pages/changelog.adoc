@@ -1,0 +1,23 @@
+= Changelog
+
+////
+The changelog is maintained here.
+
+Note that it is best to update the changelog as new code is developed, and that
+the link to the GitHub tag is only added once we are ready to release.
+////
+
+// some helper attributes for the release links
+:github: https://github.com/peopleware/net-ppwcode-aspnetcore-host/releases/tag/I%2F
+:nuget: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I/
+:ppwcode-docs: https://peopleware.github.io/net-ppwcode-docs/ppwcode-aspnetcore-host-i/
+
+:github-user: https://github.com/
+:github-pr: https://github.com/peopleware/net-ppwcode-aspnetcore-host/pull/
+:github-issue: https://github.com/peopleware/net-ppwcode-aspnetcore-host/issues/
+
+
+:release: 1.0.0
+== `{release}`
+include::partial$changelog-release-section.adoc[]
+include::partial$changelog-{release}.adoc[]

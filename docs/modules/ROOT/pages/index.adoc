@@ -1,0 +1,29 @@
+= About
+
+The library `PPWCode.AspNetCore.Host.I` is part of the .NET PPWCode project and is meant to be used as the for the Host project in a REST API solution implemented with ASP.NET Core.
+
+This library is supported on .NET SDK versions that are currently supported by Microsoft as part of their official support lifecycle.
+
+
+== Development
+
+Development of the PPWCode is done on https://github.com/peopleware/net-ppwcode-aspnetcore-host/tree/I/next[GitHub].
+
+Releases (both stable and pre-release) are published on https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I/[NuGet] by https://www.nuget.org/profiles/PeopleWare[PeopleWare].
+
+
+== License and Copyright
+
+Copyright 2024–2026 by xref:ppwcode-net:ROOT:peopleware.adoc[PeopleWare].
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
