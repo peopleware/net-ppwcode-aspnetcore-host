@@ -10,6 +10,7 @@ This file is translated into markdown and used for the release notes in the GitH
 === Changes
 * Switch to .NET SDK `10.0.201`
 * Upgrade `Swashbuckle.AspNetCore` from `7.3.2` to `10.1.7`
+** Fixes link:{github-issue}1[#1] in link:{github-pr}2[#2] by link:{github-user}rvdginste[@rvdginste]
 
 
 === Note: breaking change
