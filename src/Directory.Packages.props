@@ -50,8 +50,8 @@
         <PackageVersion Include="PPWCode.AspNetCore.Server.I" Version="1.*" />
 
         <!-- Swashbuckle -->
-        <PackageVersion Include="Swashbuckle.AspNetCore" Version="7.*"/>
-        <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="7.*" />
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.*"/>
+        <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.*" />
 
         <!-- Asp.Versioning -->
         <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
