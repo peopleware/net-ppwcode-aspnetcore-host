@@ -1,4 +1,4 @@
-// Copyright 2025 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -12,7 +12,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -25,7 +25,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
         /// <inheritdoc />
         public override void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            OpenApiResponse response = new OpenApiResponse { Description = "Parameter validation failed or some business rules were not fulfilled." };
+            OpenApiResponse response = new() { Description = "Parameter validation failed or some business rules were not fulfilled." };
             ConditionalAddResponse(operation, $"{HttpStatusCode.BadRequest:D}", response);
         }
     }

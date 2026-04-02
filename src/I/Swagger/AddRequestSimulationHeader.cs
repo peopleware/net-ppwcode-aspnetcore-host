@@ -1,4 +1,4 @@
-// Copyright 2025 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,7 +11,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using PPWCode.AspNetCore.Host.I.Transactional;
 
@@ -32,7 +32,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
         {
             if (IsPost(context) || IsPut(context) || IsDelete(context))
             {
-                operation.Parameters ??= new List<OpenApiParameter>();
+                operation.Parameters ??= new List<IOpenApiParameter>();
                 operation.Parameters.Add(
                     new OpenApiParameter
                     {
@@ -42,7 +42,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                         Schema =
                             new OpenApiSchema
                             {
-                                Type = "string"
+                                Type = JsonSchemaType.String
                             },
                         Required = false,
                     });
