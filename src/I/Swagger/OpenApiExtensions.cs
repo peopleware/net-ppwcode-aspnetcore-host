@@ -36,4 +36,24 @@ public static class OpenApiExtensions
                 _ => throw new ProgrammingError($"Unsupported type of {nameof(IOpenApiSchema)}: {schema.GetType()}")
             };
     }
+
+    extension(IOpenApiParameter parameter)
+    {
+        /// <summary>
+        ///     Retrieve the concrete <see cref="OpenApiParameter"/> that this instance of <see cref="IOpenApiParameter"/>
+        ///     refers to.
+        /// </summary>
+        /// <returns>A concrete instance of <see cref="OpenApiParameter"/> if one is found</returns>
+        /// <exception cref="ProgrammingError">
+        ///     Error is thrown when the given <paramref name="parameter"/> is not an instance of the supported types
+        ///     <see cref="OpenApiParameter"/> and <see cref="OpenApiParameterReference"/>.
+        /// </exception>
+        public OpenApiParameter? GetOpenApiParameter()
+            => parameter switch
+            {
+                OpenApiParameter openApiParameterTemp => openApiParameterTemp,
+                OpenApiParameterReference openApiParameterReference => openApiParameterReference.RecursiveTarget,
+                _ => throw new ProgrammingError($"Unsupported type of {nameof(IOpenApiParameter)}: {parameter.GetType()}")
+            };
+    }
 }
