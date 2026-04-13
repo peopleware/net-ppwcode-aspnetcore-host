@@ -1,4 +1,4 @@
-// Copyright 2025 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -11,14 +11,16 @@
 
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Nodes;
 
 using Asp.Versioning;
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Any;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 using PPWCode.AspNetCore.Host.I.Bootstrap;
+using PPWCode.Vernacular.Contracts.I;
+using PPWCode.Vernacular.Exceptions.V;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -36,7 +38,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                 new(
                     typeof(ApiVersion),
                     [
-                        (pd => $"{pd.ParameterDescriptor.Name}", new OpenApiString($"{Startup.DefaultApiVersion.ToString(Startup.ApiVersionFormat)}"))
+                        (pd => $"{pd.ParameterDescriptor.Name}", JsonValue.Create($"{Startup.DefaultApiVersion.ToString(Startup.ApiVersionFormat)}"))
                     ]);
             _requiredFieldsWithDefaultValues.Add(defaultRequiredField);
         }
@@ -63,28 +65,41 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                     continue;
                 }
 
-                foreach ((Func<ApiParameterDescription, string>, IOpenApiAny) tuple in defaultRequiredField.ParamLambdas)
+                foreach ((Func<ApiParameterDescription, string>, JsonNode) tuple in defaultRequiredField.ParamLambdas)
                 {
                     SetParamValue(operation, tuple.Item1.Invoke(parameter), tuple.Item2);
                 }
             }
         }
 
-        protected void SetParamValue(OpenApiOperation operation, string name, IOpenApiAny defaultValue)
+        protected void SetParamValue(OpenApiOperation operation, string name, JsonNode defaultValue)
         {
-            OpenApiParameter? param =
+            Contract.Requires(operation.Parameters is not null);
+            IOpenApiParameter? parameter =
                 operation
                     .Parameters
                     .SingleOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
-            if (param is { Required: true })
+
+            if (parameter is not null)
             {
-                param.Example = defaultValue;
+                OpenApiParameter? openApiParameter =
+                    parameter switch
+                    {
+                        OpenApiParameter openApiParameterTemp => openApiParameterTemp,
+                        OpenApiParameterReference openApiParameterReference => openApiParameterReference.RecursiveTarget,
+                        _ => throw new ProgrammingError("Unsupported configuration")
+                    };
+
+                if (openApiParameter is not null && openApiParameter.Required)
+                {
+                    openApiParameter.Example = defaultValue;
+                }
             }
         }
 
         public class DefaultRequiredField
         {
-            public DefaultRequiredField(Type type, (Func<ApiParameterDescription, string>, IOpenApiAny)[] paramLambdas)
+            public DefaultRequiredField(Type type, (Func<ApiParameterDescription, string>, JsonNode)[] paramLambdas)
             {
                 Type = type;
                 ParamLambdas = paramLambdas;
@@ -92,7 +107,7 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
 
             public Type Type { get; }
 
-            public (Func<ApiParameterDescription, string>, IOpenApiAny)[] ParamLambdas { get; }
+            public (Func<ApiParameterDescription, string>, JsonNode)[] ParamLambdas { get; }
         }
     }
 }

@@ -1,0 +1,18 @@
+////
+The changelog for a specific release.
+Note that it is best to update the changelog as new code is developed.
+
+All attributes used, must be included in this file to keep it self-contained.
+
+This file is translated into markdown and used for the release notes in the GitHub release!
+////
+
+=== Changes
+* Switch to .NET SDK `10.0.201`
+* Upgrade `Swashbuckle.AspNetCore` from `7.3.2` to `10.1.7`
+** Fixes link:{github-issue}1[#1] in link:{github-pr}2[#2] by link:{github-user}rvdginste[@rvdginste]
+
+
+=== Note: breaking change
+* Rename `INSSSchemaFilter` to `ForceTypeToStringSchemaFilter`
+* Changes to the provided `IOperationFilter` implementations after upgrade to new major version of `Swashbuckle.AspNetCore`

@@ -1,4 +1,4 @@
-// Copyright 2025 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -13,8 +13,9 @@ using Asp.Versioning;
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
+using PPWCode.Vernacular.Contracts.I;
 using PPWCode.Vernacular.Persistence.V;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -69,15 +70,20 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
                     .Select(GetIdentification));
 
         protected virtual bool ResponseExists(OpenApiOperation operation, string key)
-            => operation.Responses.ContainsKey(key);
+        {
+            Contract.Requires(operation.Responses is not null);
+            return operation.Responses.ContainsKey(key);
+        }
 
         protected virtual void AddResponse(OpenApiOperation operation, string key, OpenApiResponse response)
         {
+            Contract.Requires(operation.Responses is not null);
             operation.Responses.Add(key, response);
         }
 
         protected virtual void RemoveResponse(OpenApiOperation operation, string key)
         {
+            Contract.Requires(operation.Responses is not null);
             if (ResponseExists(operation, key))
             {
                 operation.Responses.Remove(key);
