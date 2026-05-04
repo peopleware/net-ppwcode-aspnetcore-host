@@ -64,16 +64,18 @@ public class DbContextSaveChangesFilter
         }
         else
         {
+            string displayName = ActionContextDisplayName(context);
+
             DbConnection connection = _dbContext.Database.GetDbConnection();
             if (connection.State != ConnectionState.Open)
             {
-                throw new ProgrammingError($"{ActionContextDisplayName(context)} No open connection found on the dbContext, state is {connection.State}.");
+                throw new ProgrammingError($"{displayName} No open connection found on the dbContext, state is {connection.State}.");
             }
 
             IDbContextTransaction? transaction = _dbContext.Database.CurrentTransaction;
             if (transaction == null)
             {
-                throw new ProgrammingError($"{ActionContextDisplayName(context)} Expected an active transaction on the dbContext.");
+                throw new ProgrammingError($"{displayName} Expected an active transaction on the dbContext.");
             }
 
             ActionExecutedContext executedContext = await next().ConfigureAwait(false);
@@ -85,17 +87,32 @@ public class DbContextSaveChangesFilter
             if (!cancellationToken.IsCancellationRequested
                 && (executedContext.Exception == null))
             {
-                _logger.LogInformation("Saving changes to the database");
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation(
+                        "{DisplayName} Saving changes to the database",
+                        displayName);
+                }
+
                 await _dbContext
                     .SaveChangesAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
             else if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation(
-                    "Saving changes to the database was requested, but either the request is cancelled {IsCancellationRequested} or an exception, {ExceptionMessage}, occured",
-                    cancellationToken.IsCancellationRequested,
-                    executedContext.Exception?.Message);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    _logger.LogInformation(
+                        "{DisplayName} Not saving the request since cancellation is requested",
+                        displayName);
+                }
+                else if (executedContext.Exception != null)
+                {
+                    _logger.LogInformation(
+                        "{DisplayName} Not saving the request since an exception was thrown, {ExceptionMessage}",
+                        displayName,
+                        executedContext.Exception.Message);
+                }
             }
         }
     }
