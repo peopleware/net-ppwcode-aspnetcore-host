@@ -49,6 +49,10 @@
         <PackageVersion Include="PPWCode.Util.Authorization.I" Version="1.*" />
         <PackageVersion Include="PPWCode.AspNetCore.Server.I" Version="1.*" />
 
+        <!-- NHibernate -->
+        <PackageVersion Include="PPWCode.Vernacular.NHibernate.IV" Version="1.*-*" />
+        <PackageVersion Include="NHibernate" Version="5.*" />
+
         <!-- Swashbuckle -->
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.*"/>
         <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.*" />

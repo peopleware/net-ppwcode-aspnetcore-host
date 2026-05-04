@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\common.props" />
+
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+    </ItemGroup>
+
+    <ItemGroup>
+
+        <!-- PPWCode -->
+        <PackageReference Include="PPWCode.Vernacular.Exceptions.V" />
+        <PackageReference Include="PPWCode.AspNetCore.Server.I" />
+        <PackageReference Include="PPWCode.Vernacular.NHibernate.IV" />
+
+        <!-- NHibernate -->
+        <PackageReference Include="NHibernate" />
+
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../I/PPWCode.AspNetCore.Host.I.csproj" />
+    </ItemGroup>
+
+</Project>
