@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <!-- ... -->
+
+    <ItemGroup>
+        <!-- nuget package dependencies -->
+        <PackageReference Include="PPWCode.AspNetCore.Host.I" Version="2.3.0" />
+        <PackageReference Include="PPWCode.AspNetCore.Host.I.NHibernate" Version="2.3.0" />
+    </ItemGroup>
+
+    <!-- ... -->
+</Project>
