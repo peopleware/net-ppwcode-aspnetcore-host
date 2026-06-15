@@ -11,3 +11,4 @@ This file is translated into markdown and used for the release notes in the GitH
 === New
 * Support for NHibernate added
 ** See package `PPWCode.AspNetCore.Host.I.NHibernate`
+** Improve transaction middleware, more defensive approach
