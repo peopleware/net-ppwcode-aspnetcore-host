@@ -10,7 +10,6 @@
 // limitations under the License.
 
 using System.Data;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
 using Microsoft.AspNetCore.Http;
@@ -24,8 +23,6 @@ using PPWCode.AspNetCore.Server.I.Transactional;
 using PPWCode.Vernacular.Exceptions.V;
 using PPWCode.Vernacular.NHibernate.IV;
 
-using ISession = NHibernate.ISession;
-
 namespace PPWCode.AspNetCore.Host.I.NHibernate;
 
 /// <summary>
@@ -33,22 +30,28 @@ namespace PPWCode.AspNetCore.Host.I.NHibernate;
 /// </summary>
 /// <remarks>
 ///     <p>
-///         The transaction is created, taking into account the <see cref="TransactionalAttribute" /> that might be placed
-///         on the controller or on the action method.
+///         The transaction is created, taking into account the <see cref="TransactionalAttribute" /> that might be applied
+///         to the controller or the action method.
 ///     </p>
 ///     <p>
-///         The transaction is created when the request passes through the middleware, and before the next middleware in
-///         the pipeline is called.
+///         The transaction is created when the request passes through the middleware, before the next middleware in the
+///         pipeline is called.
 ///     </p>
 ///     <p>
-///         The transaction is closed either when ASP.NET Core attempts to start writing the response to the client,
-///         or when the response comes back through this middleware; whichever happens earlier.
+///         The transaction is closed either when ASP.NET Core attempts to start writing the response to the client or
+///         when the response comes back through this middleware, whichever happens first.
+///     </p>
+///     <p>
+///         This middleware instance keeps state. It needs to know whether a transaction has already been started. So, it
+///         should be registered as scoped or transient in your DI container.
 ///     </p>
 /// </remarks>
 public class TransactionMiddleware : IMiddleware
 {
-    private readonly ISessionProviderAsync _sessionProvider;
     private readonly ILogger<TransactionMiddleware> _logger;
+    private readonly ISessionProviderAsync _sessionProvider;
+
+    private volatile int _isTransactionClosed;
 
     public TransactionMiddleware(
         ISessionProviderAsync sessionProvider,
@@ -64,8 +67,8 @@ public class TransactionMiddleware : IMiddleware
         Endpoint? endPoint = httpContext.GetEndpoint();
         if (endPoint == null)
         {
-            // It is possible that no endpoint is found when the backend is presented with a path that is not supported
-            // by any controller.  When no endpoint is found, the response will likely be NotFound or another 4xx status
+            // It is possible that no endpoint is found when the backend receives a path not supported
+            // by any controller.  When no endpoint is found, the response will likely be NotFound or another 4xx status,
             // and in that case no transaction handling is done.
             await next(httpContext).ConfigureAwait(false);
             return;
@@ -75,9 +78,9 @@ public class TransactionMiddleware : IMiddleware
         if (controllerActionDescriptor == null)
         {
             // It is possible that an endpoint is found, but that no ControllerActionDescriptor is found.  This could be
-            // the case for a path that is supported for a number of HTTP verbs, but is called with another HTTP verb.
+            // the case for a path that supports a number of HTTP verbs but is called with a different HTTP verb.
             // This is likely an internal endpoint added by ASP.NET Core.  When this is the case, the response will
-            // likely be a 4xx status and in that case no transaction handling is done.
+            // likely be a 4xx status, and in that case no transaction handling is done.
             await next(httpContext).ConfigureAwait(false);
             return;
         }
@@ -107,7 +110,7 @@ public class TransactionMiddleware : IMiddleware
     {
         if (_logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation($"Determine if we should use transactions using attribute {nameof(TransactionalAttribute)}");
+            _logger.LogInformation($"Determine whether transactions should be used based on attribute {nameof(TransactionalAttribute)}");
         }
 
         string? displayName = controllerActionDescriptor.DisplayName;
@@ -115,23 +118,31 @@ public class TransactionMiddleware : IMiddleware
 
         if (transactionalAttribute is { Transactional: true })
         {
-            ISession session = _sessionProvider.Session;
-            if (!session.IsOpen)
+            if (!_sessionProvider.Session.IsOpen)
             {
-                throw new ProgrammingError($"{displayName} Current session is not opened.");
+                throw new ProgrammingError($"{displayName} Current session is not open.");
             }
 
             if (_logger.IsEnabled(LogLevel.Information))
             {
-                _logger.LogInformation("{DisplayName} Start our request transaction, with isolation level {IsolationLevel}", displayName, isolationLevel);
+                _logger.LogInformation(
+                    "{ActionContext} Starting request transaction with isolation level {IsolationLevel}",
+                    displayName,
+                    isolationLevel);
             }
 
-            return session.BeginTransaction(transactionalAttribute.IsolationLevel);
+            ITransaction transaction = _sessionProvider.Session.BeginTransaction(transactionalAttribute.IsolationLevel);
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Created transaction {TransactionHashCode}", transaction.GetHashCode());
+            }
+
+            return transaction;
         }
 
         if (_logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation("{DisplayName} No transaction is requested", displayName);
+            _logger.LogInformation("{ActionContext} No transaction was requested", displayName);
         }
 
         return null;
@@ -141,8 +152,23 @@ public class TransactionMiddleware : IMiddleware
         HttpContext httpContext,
         ITransaction transaction)
     {
+        if (_isTransactionClosed > 0)
+        {
+            if (_logger.IsEnabled(LogLevel.Information))
+            {
+                _logger.LogInformation("Transaction {TransactionHashCode} is already closed; no further action performed", transaction.GetHashCode());
+            }
+
+            return;
+        }
+
+        // Mark the transaction as handled before processing it. This prevents the execution of recursive calls.
+        Interlocked.Add(ref _isTransactionClosed, 1);
+
+        // Only do something when the transaction is still active.
         if (transaction.IsActive)
         {
+            // Decide whether a rollback is needed.
             CancellationToken cancellationToken = httpContext.RequestAborted;
             bool shouldRollback =
                 cancellationToken.IsCancellationRequested
@@ -150,64 +176,86 @@ public class TransactionMiddleware : IMiddleware
                 || httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation);
             if (shouldRollback)
             {
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        _logger.LogInformation("Rollback due to cancellation request");
-                    }
-                    else if (!IsSuccessStatusCode(httpContext))
-                    {
-                        _logger.LogInformation("Rollback due to Http status code {HttpStatusCode}", httpContext.Response.StatusCode);
-                    }
-                    else if (httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation))
-                    {
-                        _logger.LogInformation("Rollback due to Header {HttpHeader}", Constants.RequestSimulation);
-                    }
-                }
-
-                // A rollback shouldn't be canceled!
-                cancellationToken = CancellationToken.None;
-                await OnRollbackAsync(httpContext, cancellationToken).ConfigureAwait(false);
-                await _sessionProvider
-                    .SafeEnvironmentProviderAsync
-                    .RunAsync(
-                        nameof(ITransaction.RollbackAsync),
-                        transaction.RollbackAsync,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-                await OnAfterRollbackAsync(httpContext, cancellationToken).ConfigureAwait(false);
+                // A rollback should not be canceled.
+                await HandleRollbackAsync(transaction, CancellationToken.None).ConfigureAwait(false);
             }
             else
             {
-                await OnCommitAsync(httpContext, cancellationToken).ConfigureAwait(false);
-                await _sessionProvider
-                    .SafeEnvironmentProviderAsync
-                    .RunAsync(
-                        nameof(ITransaction.CommitAsync),
-                        transaction.CommitAsync,
-                        cancellationToken)
-                    .ConfigureAwait(false);
-                await OnAfterCommitAsync(httpContext, cancellationToken).ConfigureAwait(false);
+                // Commit was chosen; do not cancel once it has started.
+                await HandleCommitAsync(transaction, CancellationToken.None).ConfigureAwait(false);
             }
         }
     }
 
-    protected virtual bool IsSuccessStatusCode(HttpContext httpContext)
+    /// <summary>
+    ///     This method makes a best-effort attempt to roll back the given transaction.
+    /// </summary>
+    /// <remarks>
+    ///     The method performs the rollback on a best-effort basis: when something goes wrong, the exception is properly
+    ///     logged, but the exception itself is swallowed. The code determines that a rollback must be initiated, and
+    ///     the further flow and handling act as if the rollback was successfully executed. Whenever a
+    ///     rollback is initiated, there is a guarantee that the commit was not executed.
+    /// </remarks>
+    /// <param name="transaction">the given <see cref="ITransaction" /></param>
+    /// <param name="cancellationToken">the given <see cref="CancellationToken" /></param>
+    /// <returns>
+    ///     A <see cref="Task" /> representing the asynchronous action.
+    /// </returns>
+    protected virtual async Task HandleRollbackAsync(ITransaction transaction, CancellationToken cancellationToken)
     {
-        int statusCode = httpContext.Response.StatusCode;
-        return statusCode is >= (int)HttpStatusCode.OK and <= 299;
+        try
+        {
+            // Execute rollback.
+            await _sessionProvider
+                .SafeEnvironmentProviderAsync
+                .RunAsync(
+                    nameof(ITransaction.RollbackAsync),
+                    transaction.RollbackAsync,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            // Log, but swallow the exception.
+            _logger.LogError(e, "Actual rollback failed with exception: exception is logged but swallowed");
+        }
     }
 
-    protected virtual Task OnCommitAsync([NotNull] HttpContext context, CancellationToken cancellationToken)
-        => Task.CompletedTask;
+    /// <summary>
+    ///     This method handles the commit of the given transaction. Note that if the commit call fails, the transaction
+    ///     is rolled back on a best-effort basis. The exception thrown by the commit failure is rethrown further up
+    ///     the stack.
+    /// </summary>
+    /// <param name="transaction">the given <see cref="ITransaction" /></param>
+    /// <param name="cancellationToken">the given <see cref="CancellationToken" /></param>
+    /// <returns>
+    ///     A <see cref="Task" /> representing the asynchronous action.
+    /// </returns>
+    protected virtual async Task HandleCommitAsync(ITransaction transaction, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await _sessionProvider
+                .SafeEnvironmentProviderAsync
+                .RunAsync(
+                    nameof(ITransaction.CommitAsync),
+                    transaction.CommitAsync,
+                    cancellationToken)
+                .ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            // Log the exception first.
+            _logger.LogError(e, "HandleCommit failed with exception");
 
-    protected virtual Task OnAfterCommitAsync([NotNull] HttpContext context, CancellationToken cancellationToken)
-        => Task.CompletedTask;
+            // Next, do a best-effort rollback.
+            await HandleRollbackAsync(transaction, CancellationToken.None).ConfigureAwait(false);
 
-    protected virtual Task OnRollbackAsync([NotNull] HttpContext context, CancellationToken cancellationToken)
-        => Task.CompletedTask;
+            // Rethrow the original exception for correct exception handling.
+            throw;
+        }
+    }
 
-    protected virtual Task OnAfterRollbackAsync([NotNull] HttpContext context, CancellationToken cancellationToken)
-        => Task.CompletedTask;
+    protected virtual bool IsSuccessStatusCode(HttpContext httpContext)
+        => httpContext.Response.StatusCode is >= (int)HttpStatusCode.OK and <= 299;
 }
