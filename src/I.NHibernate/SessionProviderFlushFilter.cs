@@ -56,11 +56,7 @@ public class SessionProviderFlushFilter
                 .EndpointMetadata
                 .OfType<TransactionalAttribute>()
                 .LastOrDefault();
-        if (transactional?.Transactional == false)
-        {
-            await next().ConfigureAwait(false);
-        }
-        else
+        if (transactional?.TransactionalType == TransactionTypeEnum.YES)
         {
             string displayName = ActionContextDisplayName(context);
 
@@ -111,6 +107,10 @@ public class SessionProviderFlushFilter
                         executedContext.Exception.Message);
                 }
             }
+        }
+        else
+        {
+            await next().ConfigureAwait(false);
         }
     }
 

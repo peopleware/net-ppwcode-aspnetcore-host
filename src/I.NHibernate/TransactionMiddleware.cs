@@ -116,7 +116,7 @@ public class TransactionMiddleware : IMiddleware
         string? displayName = controllerActionDescriptor.DisplayName;
         IsolationLevel isolationLevel = transactionalAttribute?.IsolationLevel ?? IsolationLevel.Unspecified;
 
-        if (transactionalAttribute is { Transactional: true })
+        if (transactionalAttribute is { TransactionalType: TransactionTypeEnum.YES })
         {
             if (!_sessionProvider.Session.IsOpen)
             {

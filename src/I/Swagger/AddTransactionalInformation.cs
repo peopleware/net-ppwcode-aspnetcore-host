@@ -11,9 +11,9 @@
 
 using System.Data;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Text;
 
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OpenApi;
 
 using PPWCode.AspNetCore.Server.I.Transactional;
@@ -32,44 +32,39 @@ namespace PPWCode.AspNetCore.Host.I.Swagger
         /// <inheritdoc />
         public override void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            ControllerActionDescriptor? controllerActionDescriptor = ControllerActionDescriptor(context);
-            if (controllerActionDescriptor != null)
+            TransactionalAttribute? attribute = GetTransactionalAttribute(context.MethodInfo);
+            TransactionTypeEnum transactionalType = attribute?.TransactionalType ?? TransactionTypeEnum.NONE;
+            IsolationLevel isolationLevel = attribute?.IsolationLevel ?? IsolationLevel.Unspecified;
+            StringBuilder sb = new();
+            if (transactionalType is TransactionTypeEnum.YES or TransactionTypeEnum.MANUAL)
             {
-                TransactionalAttribute? attribute =
-                    controllerActionDescriptor
-                        .MethodInfo
-                        .GetCustomAttributes(typeof(TransactionalAttribute), true)
-                        .OfType<TransactionalAttribute>()
-                        .SingleOrDefault()
-                    ?? controllerActionDescriptor
-                        .ControllerTypeInfo
-                        .GetCustomAttributes(typeof(TransactionalAttribute), true)
-                        .OfType<TransactionalAttribute>()
-                        .SingleOrDefault();
-                bool transactional = attribute?.Transactional ?? true;
-                IsolationLevel isolationLevel = attribute?.IsolationLevel ?? IsolationLevel.Unspecified;
-                StringBuilder sb = new StringBuilder();
-                if (transactional)
+                sb
+                    .AppendFormat("<b>Transactional</b>: Yes{0}<br>", transactionalType == TransactionTypeEnum.MANUAL ? " (manual)" : string.Empty)
+                    .AppendFormat("<b>Isolation level</b>: {0}<br>", isolationLevel);
+                if (transactionalType is TransactionTypeEnum.MANUAL
+                    && !string.IsNullOrWhiteSpace(attribute?.ManualReason))
                 {
-                    sb
-                        .Append("<b>Transactional</b>: Yes<br>")
-                        .AppendFormat("<b>Isolation level</b>: {0}<br>", isolationLevel);
+                    sb.AppendFormat("<b>Manual reason</b>: {0}<br>", attribute.ManualReason);
                 }
-                else
-                {
-                    sb
-                        .Append("<b>Transactional</b>: No<br>");
-                }
-
-                if (operation.Description != null)
-                {
-                    sb
-                        .Append("<br>")
-                        .Append(operation.Description);
-                }
-
-                operation.Description = sb.ToString();
             }
+            else if (transactionalType is TransactionTypeEnum.NO)
+            {
+                sb
+                    .Append("<b>Transactional</b>: No<br>");
+            }
+
+            if (operation.Description != null)
+            {
+                sb
+                    .Append("<br>")
+                    .Append(operation.Description);
+            }
+
+            operation.Description = sb.ToString();
         }
+
+        private static TransactionalAttribute? GetTransactionalAttribute(MethodInfo methodInfo)
+            => methodInfo.GetCustomAttribute<TransactionalAttribute>(true)
+               ?? methodInfo.DeclaringType?.GetCustomAttribute<TransactionalAttribute>(true);
     }
 }

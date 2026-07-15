@@ -1,4 +1,4 @@
-﻿// Copyright 2025 by PeopleWare n.v..
+﻿// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -58,11 +58,7 @@ public class DbContextSaveChangesFilter
                 .EndpointMetadata
                 .OfType<TransactionalAttribute>()
                 .LastOrDefault();
-        if (transactional?.Transactional == false)
-        {
-            await next().ConfigureAwait(false);
-        }
-        else
+        if (transactional?.TransactionalType == TransactionTypeEnum.YES)
         {
             string displayName = ActionContextDisplayName(context);
 
@@ -114,6 +110,10 @@ public class DbContextSaveChangesFilter
                         executedContext.Exception.Message);
                 }
             }
+        }
+        else
+        {
+            await next().ConfigureAwait(false);
         }
     }
 
