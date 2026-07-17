@@ -3,8 +3,10 @@
 // helper attributes for package links
 :nuget-main: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I/
 :nuget-efc: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I.EntityFrameworkCore/
+:nuget-nhibernate: https://www.nuget.org/packages/PPWCode.AspNetCore.Host.I.NHibernate/
 :main: PPWCode.AspNetCore.Host.I
 :efc: PPWCode.AspNetCore.Host.I.EntityFrameworkCore
+:nhibernate: PPWCode.AspNetCore.Host.I.NHibernate
 
 == Add NuGet package
 
@@ -14,11 +16,23 @@ The following packages are available:
 
 - {nuget-main}[{main}], base library
 - {nuget-efc}[{efc}], support for Entity Framework Core
+- {nuget-nhibernate}[{nhibernate}], support for NHibernate
 
 
 You can use your IDE to add it as a dependency to your project, or manually add it in the `.csproj` file.  This would look similar to the following:
 
+
+=== Entity Framework Core
+
 [source,xml]
 ----
-include::example$project.csproj[]
+include::example$project-efc.csproj[]
+----
+
+
+=== NHibernate
+
+[source,xml]
+----
+include::example$project-nhibernate.csproj[]
 ----

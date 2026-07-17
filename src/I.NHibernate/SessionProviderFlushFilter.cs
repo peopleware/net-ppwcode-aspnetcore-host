@@ -1,4 +1,4 @@
-﻿// Copyright 2026 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -9,23 +9,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System.Data;
-using System.Data.Common;
-
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+
+using NHibernate;
 
 using PPWCode.AspNetCore.Server.I.Transactional;
 using PPWCode.Vernacular.Exceptions.V;
+using PPWCode.Vernacular.NHibernate.IV;
 
-namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
+namespace PPWCode.AspNetCore.Host.I.NHibernate;
 
 /// <summary>
-///     The <see cref="DbContextSaveChangesFilter" /> is an <see cref="IAsyncActionFilter" /> that executes a
-///     <c>SaveChangesAsync</c>
-///     on theEntity Framework context <see cref="DbContext" /> right after the action method is executed.
+///     The <see cref="SessionProviderFlushFilter" /> is an <see cref="IAsyncActionFilter" /> that executes a <c>Flush</c>
+///     on the NHibernate <see cref="ISession" /> right after the action method is executed.
 /// </summary>
 /// <remarks>
 ///     <p>
@@ -33,19 +30,20 @@ namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
 ///         after the execution (in the 'after' part) of this action filter.
 ///     </p>
 ///     <p>
-///         Note that the <c>SaveChangesAsync</c> is only executed if the request is not canceled and did not generate an
-///         exception.
+///         Note that the <c>Flush</c> is only executed if the request is not cancelled and did not generate an exception.
 ///     </p>
 /// </remarks>
-public class DbContextSaveChangesFilter
+public class SessionProviderFlushFilter
     : IAsyncActionFilter
 {
-    private readonly DbContext _dbContext;
-    private readonly ILogger<DbContextSaveChangesFilter> _logger;
+    private readonly ISessionProviderAsync _sessionProvider;
+    private readonly ILogger<SessionProviderFlushFilter> _logger;
 
-    public DbContextSaveChangesFilter(DbContext dbContext, ILogger<DbContextSaveChangesFilter> logger)
+    public SessionProviderFlushFilter(
+        ISessionProviderAsync sessionProvider,
+        ILogger<SessionProviderFlushFilter> logger)
     {
-        _dbContext = dbContext;
+        _sessionProvider = sessionProvider;
         _logger = logger;
     }
 
@@ -62,16 +60,15 @@ public class DbContextSaveChangesFilter
         {
             string displayName = ActionContextDisplayName(context);
 
-            DbConnection connection = _dbContext.Database.GetDbConnection();
-            if (connection.State != ConnectionState.Open)
+            if (!_sessionProvider.Session.IsOpen)
             {
-                throw new ProgrammingError($"{displayName} No open connection found on the dbContext, state is {connection.State}.");
+                throw new ProgrammingError($"{displayName} Current session is not opened.");
             }
 
-            IDbContextTransaction? transaction = _dbContext.Database.CurrentTransaction;
-            if (transaction == null)
+            ITransaction? transaction = _sessionProvider.Session.GetCurrentTransaction();
+            if (transaction is null or { IsActive: false })
             {
-                throw new ProgrammingError($"{displayName} Expected an active transaction on the dbContext.");
+                throw new ProgrammingError($"{displayName} Expected an active transaction on the session.");
             }
 
             ActionExecutedContext executedContext = await next().ConfigureAwait(false);
@@ -86,12 +83,12 @@ public class DbContextSaveChangesFilter
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation(
-                        "{DisplayName} Saving changes to the database",
+                        "{DisplayName} Flush request to the database",
                         displayName);
                 }
 
-                await _dbContext
-                    .SaveChangesAsync(cancellationToken)
+                await _sessionProvider
+                    .FlushAsync(cancellationToken)
                     .ConfigureAwait(false);
             }
             else if (_logger.IsEnabled(LogLevel.Information))
@@ -99,13 +96,13 @@ public class DbContextSaveChangesFilter
                 if (cancellationToken.IsCancellationRequested)
                 {
                     _logger.LogInformation(
-                        "{DisplayName} Not saving the request since cancellation is requested",
+                        "{DisplayName} Not flushing the request since cancellation is requested",
                         displayName);
                 }
                 else if (executedContext.Exception != null)
                 {
                     _logger.LogInformation(
-                        "{DisplayName} Not saving the request since an exception was thrown, {ExceptionMessage}",
+                        "{DisplayName} Not flushing the request since an exception was thrown, {ExecptionMessage}",
                         displayName,
                         executedContext.Exception.Message);
                 }

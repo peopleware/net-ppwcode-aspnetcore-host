@@ -1,0 +1,28 @@
+////
+The changelog for a specific release.
+Note that it is best to update the changelog as new code is developed.
+
+All attributes used, must be included in this file to keep it self-contained.
+
+This file is translated into markdown and used for the release notes in the GitHub release!
+////
+
+
+=== Changes
+* Upgrade `PPWCode.AspNetCore.Server.I` from version 1 to version 2
+* Use `TransactionalAttribute.TransactionalType` to determine transaction handling for Entity Framework Core and NHibernate
+* Extend generated OpenAPI descriptions with manual transaction handling and its reason
+* Switched the solution file from `.sln` to `.slnx` format
+* Updated the .NET SDK version to `10.0.302`
+* Added `gen5` to the NuGet package tags
+* Generated portable debug symbols for both Debug and Release configurations
+* Changed test and analyzer package versions to floating versions
+* Add `Asp.Versioning.Mvc.ApiExplorer` package version per framework in `Directory.Packages.props`
+* Updated test project dependencies to the latest available versions
+* Remove Microsoft.SourceLink.GitHub from global package references
+
+
+=== Note: breaking change
+* Replace `TransactionalAttribute.Transactional` with `TransactionalAttribute.TransactionalType`
+* Transactions, Entity Framework Core save changes, and NHibernate flushes are now performed only for endpoints marked with `TransactionTypeEnum.YES`
+** Endpoints marked with `TransactionTypeEnum.MANUAL` are documented as manually transactional, but transaction handling remains the responsibility of the endpoint

@@ -1,4 +1,4 @@
-﻿// Copyright 2026 by PeopleWare n.v..
+// Copyright 2026 by PeopleWare n.v..
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
@@ -14,15 +14,16 @@ using System.Net;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+
+using NHibernate;
 
 using PPWCode.AspNetCore.Host.I.Transactional;
 using PPWCode.AspNetCore.Server.I.Transactional;
 using PPWCode.Vernacular.Exceptions.V;
+using PPWCode.Vernacular.NHibernate.IV;
 
-namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
+namespace PPWCode.AspNetCore.Host.I.NHibernate;
 
 /// <summary>
 ///     The <see cref="TransactionMiddleware" /> handles transactions.
@@ -47,14 +48,16 @@ namespace PPWCode.AspNetCore.Host.I.EntityFrameworkCore;
 /// </remarks>
 public class TransactionMiddleware : IMiddleware
 {
-    private readonly DbContext _dbContext;
     private readonly ILogger<TransactionMiddleware> _logger;
+    private readonly ISessionProviderAsync _sessionProvider;
 
     private volatile int _isTransactionClosed;
 
-    public TransactionMiddleware(DbContext dbContext, ILogger<TransactionMiddleware> logger)
+    public TransactionMiddleware(
+        ISessionProviderAsync sessionProvider,
+        ILogger<TransactionMiddleware> logger)
     {
-        _dbContext = dbContext;
+        _sessionProvider = sessionProvider;
         _logger = logger;
     }
 
@@ -83,7 +86,7 @@ public class TransactionMiddleware : IMiddleware
         }
 
         TransactionalAttribute? transactionalAttribute = endPoint.Metadata.GetMetadata<TransactionalAttribute>();
-        IDbContextTransaction? transaction = InitiateTransaction(controllerActionDescriptor, transactionalAttribute);
+        ITransaction? transaction = InitiateTransaction(controllerActionDescriptor, transactionalAttribute);
         if (transaction == null)
         {
             await next(httpContext).ConfigureAwait(false);
@@ -101,7 +104,7 @@ public class TransactionMiddleware : IMiddleware
         }
     }
 
-    protected virtual IDbContextTransaction? InitiateTransaction(
+    protected virtual ITransaction? InitiateTransaction(
         ControllerActionDescriptor controllerActionDescriptor,
         TransactionalAttribute? transactionalAttribute)
     {
@@ -115,10 +118,9 @@ public class TransactionMiddleware : IMiddleware
 
         if (transactionalAttribute is { TransactionalType: TransactionTypeEnum.YES })
         {
-            IDbContextTransaction? transaction = _dbContext.Database.CurrentTransaction;
-            if (transaction != null)
+            if (!_sessionProvider.Session.IsOpen)
             {
-                throw new ProgrammingError($"{displayName} Expected no transaction on the dbContext.");
+                throw new ProgrammingError($"{displayName} Current session is not open.");
             }
 
             if (_logger.IsEnabled(LogLevel.Information))
@@ -129,7 +131,7 @@ public class TransactionMiddleware : IMiddleware
                     isolationLevel);
             }
 
-            transaction = _dbContext.Database.BeginTransaction(transactionalAttribute.IsolationLevel);
+            ITransaction transaction = _sessionProvider.Session.BeginTransaction(transactionalAttribute.IsolationLevel);
             if (_logger.IsEnabled(LogLevel.Information))
             {
                 _logger.LogInformation("Created transaction {TransactionHashCode}", transaction.GetHashCode());
@@ -140,13 +142,15 @@ public class TransactionMiddleware : IMiddleware
 
         if (_logger.IsEnabled(LogLevel.Information))
         {
-            _logger.LogInformation("{DisplayName} No transaction is requested", displayName);
+            _logger.LogInformation("{ActionContext} No transaction was requested", displayName);
         }
 
         return null;
     }
 
-    protected virtual async Task CloseTransactionAsync(HttpContext httpContext, IDbContextTransaction transaction)
+    protected virtual async Task CloseTransactionAsync(
+        HttpContext httpContext,
+        ITransaction transaction)
     {
         if (_isTransactionClosed > 0)
         {
@@ -161,51 +165,24 @@ public class TransactionMiddleware : IMiddleware
         // Mark the transaction as handled before processing it. This prevents the execution of recursive calls.
         Interlocked.Add(ref _isTransactionClosed, 1);
 
-        IDbContextTransaction? currentTransaction = _dbContext.Database.CurrentTransaction;
-        if (currentTransaction != null)
+        // Only do something when the transaction is still active.
+        if (transaction.IsActive)
         {
+            // Decide whether a rollback is needed.
             CancellationToken cancellationToken = httpContext.RequestAborted;
             bool shouldRollback =
                 cancellationToken.IsCancellationRequested
                 || !IsSuccessStatusCode(httpContext)
-                || (currentTransaction != transaction)
                 || httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation);
             if (shouldRollback)
             {
-                if (_logger.IsEnabled(LogLevel.Information))
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        _logger.LogInformation("Rollback due to cancellation request");
-                    }
-                    else if (!IsSuccessStatusCode(httpContext))
-                    {
-                        _logger.LogInformation("Rollback due to Http status code {HttpStatusCode}", httpContext.Response.StatusCode);
-                    }
-                    else if (httpContext.Request.Headers.ContainsKey(Constants.RequestSimulation))
-                    {
-                        _logger.LogInformation("Rollback due to Header {HttpHeader}", Constants.RequestSimulation);
-                    }
-                    else if (currentTransaction != transaction)
-                    {
-                        _logger.LogInformation("Mismatch transactions, the current transaction on the db-context doesn't match the initial started transaction");
-                    }
-                }
-
                 // A rollback should not be canceled.
-                await HandleRollbackAsync().ConfigureAwait(false);
+                await HandleRollbackAsync(transaction, CancellationToken.None).ConfigureAwait(false);
             }
             else
             {
                 // Commit was chosen; do not cancel once it has started.
-                await HandleCommitAsync().ConfigureAwait(false);
-            }
-        }
-        else
-        {
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation("No current transaction on the db-context");
+                await HandleCommitAsync(transaction, CancellationToken.None).ConfigureAwait(false);
             }
         }
     }
@@ -219,15 +196,23 @@ public class TransactionMiddleware : IMiddleware
     ///     the further flow and handling act as if the rollback was successfully executed. Whenever a
     ///     rollback is initiated, there is a guarantee that the commit was not executed.
     /// </remarks>
+    /// <param name="transaction">the given <see cref="ITransaction" /></param>
+    /// <param name="cancellationToken">the given <see cref="CancellationToken" /></param>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous action.
     /// </returns>
-    protected virtual async Task HandleRollbackAsync()
+    protected virtual async Task HandleRollbackAsync(ITransaction transaction, CancellationToken cancellationToken)
     {
         try
         {
             // Execute rollback.
-            await _dbContext.Database.RollbackTransactionAsync(CancellationToken.None).ConfigureAwait(false);
+            await _sessionProvider
+                .SafeEnvironmentProviderAsync
+                .RunAsync(
+                    nameof(ITransaction.RollbackAsync),
+                    transaction.RollbackAsync,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -241,14 +226,22 @@ public class TransactionMiddleware : IMiddleware
     ///     is rolled back on a best-effort basis. The exception thrown by the commit failure is rethrown further up
     ///     the stack.
     /// </summary>
+    /// <param name="transaction">the given <see cref="ITransaction" /></param>
+    /// <param name="cancellationToken">the given <see cref="CancellationToken" /></param>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous action.
     /// </returns>
-    protected virtual async Task HandleCommitAsync()
+    protected virtual async Task HandleCommitAsync(ITransaction transaction, CancellationToken cancellationToken)
     {
         try
         {
-            await _dbContext.Database.CommitTransactionAsync(CancellationToken.None).ConfigureAwait(false);
+            await _sessionProvider
+                .SafeEnvironmentProviderAsync
+                .RunAsync(
+                    nameof(ITransaction.CommitAsync),
+                    transaction.CommitAsync,
+                    cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (Exception e)
         {
@@ -256,7 +249,7 @@ public class TransactionMiddleware : IMiddleware
             _logger.LogError(e, "HandleCommit failed with exception");
 
             // Next, do a best-effort rollback.
-            await HandleRollbackAsync().ConfigureAwait(false);
+            await HandleRollbackAsync(transaction, CancellationToken.None).ConfigureAwait(false);
 
             // Rethrow the original exception for correct exception handling.
             throw;

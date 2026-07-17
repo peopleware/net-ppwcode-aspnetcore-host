@@ -8,7 +8,6 @@ Note: double empty lines at the end of the file is done on purpose!
 * NuGet
 ** link:{nuget-main}{release}[{main}]
 ** link:{nuget-efc}{release}[{efc}]
-** link:{nuget-nhibernate}{release}[{nhibernate}]
 
 
 

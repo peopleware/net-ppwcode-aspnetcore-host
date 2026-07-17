@@ -38,14 +38,14 @@ jobs:
       - name: Restore dependencies
         shell: bash
         run: |
-          dotnet restore PPWCode.AspNetCore.Host.sln \
+          dotnet restore PPWCode.AspNetCore.Host.slnx \
             --locked-mode \
             -p:Configuration=Release
 
       - name: Build
         shell: bash
         run: |
-          dotnet build PPWCode.AspNetCore.Host.sln \
+          dotnet build PPWCode.AspNetCore.Host.slnx \
             --configuration Release \
             --no-restore \
             -p:ContinuousIntegrationBuild=true
