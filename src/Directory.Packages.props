@@ -23,18 +23,24 @@
             <ItemGroup>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.*"/>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.*"/>
+                <!-- Asp.Versioning -->
+                <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
             </ItemGroup>
         </When>
         <When Condition="'$(TargetFramework)' == 'net9.0'">
             <ItemGroup>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.*"/>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="9.*"/>
+                <!-- Asp.Versioning -->
+                <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
             </ItemGroup>
         </When>
         <Otherwise>
             <ItemGroup>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.*"/>
                 <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="10.*"/>
+                <!-- Asp.Versioning -->
+                <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="10.*" />
             </ItemGroup>
         </Otherwise>
     </Choose>
@@ -56,9 +62,6 @@
         <!-- Swashbuckle -->
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.*"/>
         <PackageVersion Include="Swashbuckle.AspNetCore.Annotations" Version="10.*" />
-
-        <!-- Asp.Versioning -->
-        <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.*" />
 
         <!-- nunit -->
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
