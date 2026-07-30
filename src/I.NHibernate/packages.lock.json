@@ -214,8 +214,8 @@
       "PPWCode.Vernacular.Contracts.I": {
         "type": "CentralTransitive",
         "requested": "[1.*, )",
-        "resolved": "1.5.0",
-        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+        "resolved": "1.6.0",
+        "contentHash": "VCS/CcsyBVujjH/nOsDKKhKDp+Hp7I834UOqi/Z3cjcSLpw0FyASz+KfD+TlgZ4CIu/J3xLkrFVGQWBFRK0YiQ=="
       },
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
@@ -474,8 +474,8 @@
       "PPWCode.Vernacular.Contracts.I": {
         "type": "CentralTransitive",
         "requested": "[1.*, )",
-        "resolved": "1.5.0",
-        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+        "resolved": "1.6.0",
+        "contentHash": "VCS/CcsyBVujjH/nOsDKKhKDp+Hp7I834UOqi/Z3cjcSLpw0FyASz+KfD+TlgZ4CIu/J3xLkrFVGQWBFRK0YiQ=="
       },
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
@@ -734,8 +734,8 @@
       "PPWCode.Vernacular.Contracts.I": {
         "type": "CentralTransitive",
         "requested": "[1.*, )",
-        "resolved": "1.5.0",
-        "contentHash": "Hv7hjZ+RXEnVkAZEdwlAW5QbT0Hvh+pCusaiQT5bRD93Z58OuMHH6Q48TizzufF6+DRm9rJdnufIcOWWvKLKaw=="
+        "resolved": "1.6.0",
+        "contentHash": "VCS/CcsyBVujjH/nOsDKKhKDp+Hp7I834UOqi/Z3cjcSLpw0FyASz+KfD+TlgZ4CIu/J3xLkrFVGQWBFRK0YiQ=="
       },
       "PPWCode.Vernacular.Persistence.V": {
         "type": "CentralTransitive",
