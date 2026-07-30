@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Net.Http.Headers;
 
 using PPWCode.AspNetCore.Server.I.Exceptions;
 
@@ -56,8 +57,11 @@ public sealed class GlobalExceptionFilter : IAsyncExceptionFilter
             string? queryString = request.QueryString.Value;
 
             // Headers
-            Dictionary<string, string> headers = request.Headers
-                .ToDictionary(h => h.Key, h => h.Value.ToString());
+            Dictionary<string, string> headers =
+                request
+                    .Headers
+                    .Where(kv => !string.Equals(kv.Key, HeaderNames.Authorization, StringComparison.OrdinalIgnoreCase))
+                    .ToDictionary(h => h.Key, h => h.Value.ToString());
 
             _logger.LogError(
                 context.Exception,
